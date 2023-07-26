@@ -39,7 +39,6 @@ const CharacterProfile = ({ data: configData }: Props) => {
   const [open, setOpen] = useState(false);
   const relicHeight = useRef<HTMLDivElement>(null);
   const { planarData, cavernData, setBonuses } = useRelicAnalyze(configData.relics);
-  console.log(configData.relics);
 
   const relicMetadataQuery = useQueries({
     queries: setBonuses.map(e => ({
@@ -68,7 +67,7 @@ const CharacterProfile = ({ data: configData }: Props) => {
   const skillRowVariant = cva("flex flex-col gap-2");
 
   const skillColumns = [
-    { lv: 1, maxLv: 1, cfg: technique, trace: 0 },
+    { lv: 0, maxLv: 1, cfg: technique, trace: 0 },
     { lv: abilities.attack, maxLv: maxSkillLevel(eidols).attack, cfg: basic, trace: 2 },
     { lv: abilities.talent, maxLv: maxSkillLevel(eidols).talent, cfg: talent, trace: 4 },
     { lv: abilities.skill, maxLv: maxSkillLevel(eidols).skill, cfg: skill, trace: 6 },
@@ -115,7 +114,7 @@ const CharacterProfile = ({ data: configData }: Props) => {
               {skillColumns.map(({ lv, maxLv, cfg, trace }) => (
                 <div key={trace} className={skillRowVariant()}>
                   <Badge className="w-fit self-center">
-                    {lv} / {maxLv}
+                    {lv <= 0 ? 1 : lv} / {maxLv}
                   </Badge>
                   {cfg && <SkillIcon data={cfg} characterId={character.avatar_id} slv={lv} />}
                   {trace !== null && <Badge className="w-fit self-center">A{trace}</Badge>}
@@ -176,7 +175,7 @@ const CharacterProfile = ({ data: configData }: Props) => {
       <CharacterStatTable
         id="mid-stats"
         className="col-span-3 grid h-fit grid-cols-6 gap-y-2 rounded-md border p-2"
-        style={{ height: relicHeight.current?.clientHeight ?? "auto" }}
+        style={{ minHeight: relicHeight.current?.clientHeight ?? "auto" }}
       />
 
       <div id="right-relic" className="col-span-3 flex flex-col gap-2">
@@ -239,9 +238,9 @@ function maxSkillLevel(eidolon: number) {
 }
 
 function getSkill(list: AvatarSkillConfig[] | undefined, attackType: SkillType) {
-  return list?.find(e =>
-    e.attack_type ? e.attack_type == attackType : e.skill_type_desc == "Talent"
-  );
+  const find = list?.find(e => e.attack_type == attackType);
+  if (find) return find;
+  return list?.find(e => e.skill_type_desc === "Talent");
 }
 
 export { CharacterProfile };

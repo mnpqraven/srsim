@@ -13,6 +13,7 @@ const ImpositionIcon = forwardRef<HTMLDivElement, Props>(
         className
       )}
       ref={ref}
+      style={{ lineHeight: "24px" }}
       {...props}
     >
       {asRoman(imposition)}

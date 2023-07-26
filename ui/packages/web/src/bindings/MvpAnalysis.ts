@@ -1,14 +1,13 @@
 export interface MvpAnalysis {
-  data: [CharacterDamage, CharacterDamage, CharacterDamage, CharacterDamage][];
+  data: Record<string, CharacterDamage[]>;
 }
 
 export interface CharacterDamage {
-  name: string;
   self_distribution: DamageSelfDistribution;
   team_distribution: InTeamDistribution;
+  turn: number;
 }
 
-// % dist, count, avg.min, avg.max
 export interface DamageSelfDistribution {
   /**
    * @minItems 4

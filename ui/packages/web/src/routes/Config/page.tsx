@@ -46,7 +46,7 @@ const Config = () => {
         <div className="flex gap-4 px-4">
           <SimActionBar />
 
-          <Tabs value={tab ?? "profile"} onValueChange={setTab}>
+          <Tabs value={tab ?? "profile"} onValueChange={setTab} className="grow">
             <TabsList className="w-full">
               <TabsTrigger value="profile" className="w-full">
                 Profile

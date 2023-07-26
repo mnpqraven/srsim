@@ -1,21 +1,20 @@
 import { useMutation } from "@tanstack/react-query";
 import { ComponentProps } from "react";
-import { OuterLabelPie } from "@/components/Graphs";
+import { CharacterDamage } from "@/bindings/MvpAnalysis";
+import { OuterLabelPie, TeamXYChart } from "@/components/Graphs";
 import { Button } from "@/components/Primitives/Button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/Primitives/Tabs";
 import API from "@/utils/constants";
-import { TeamXY } from "./TeamXY";
+import { asPercentage } from "@/utils/helpers";
 
 interface Props {
   name: string;
 }
 const MvpTab = ({ name }: Props) => {
   console.log(name);
-  // TODO: mutation
-  const mvpMutation = useMutation({
+  const { data, mutate } = useMutation({
     mutationKey: ["mockMvp"],
     mutationFn: async () => await API.mockMvp.get(),
-    onSuccess: data => console.log(data),
   });
 
   interface TestData {
@@ -49,17 +48,18 @@ const MvpTab = ({ name }: Props) => {
     labelText: d => d.label,
     labelValue: d => d.value.toLocaleString("en", { style: "percent" }),
   };
+  const characterKeys = ["Quinque", "Silver Wolf", "Natasha", "Bronya"];
 
   return (
     <>
-      <Button onClick={() => mvpMutation.mutate()}>Generate</Button>
+      <Button onClick={() => mutate()}>Generate</Button>
       <div className="flex gap-2">
         <div id="left-container" className="flex max-w-[45vw] grow flex-col  gap-2">
           <div id="portrait" className="bg-background h-64 rounded-md p-4">
             portrait
           </div>
           <div id="summary-distribution" className="bg-background grow rounded-md p-4">
-            {mvpMutation.data && (
+            {data && (
               <>
                 <Tabs defaultValue="self">
                   <TabsList>
@@ -82,7 +82,38 @@ const MvpTab = ({ name }: Props) => {
                     <a href="https://simimpact.app/sh/b2673849-b8ef-47ae-a4c0-90ec9582dce1#">
                       damage timeline(click)
                     </a>
-                    <TeamXY data={mvpMutation.data} />
+                    <TeamXYChart
+                      data={data.data}
+                      keys={characterKeys}
+                      xAccessor={(d: CharacterDamage) => d.turn}
+                      yAccessor={(d: CharacterDamage) => d.team_distribution.rate}
+                      renderTooltip={({ tooltipData, colorScale }) => (
+                        <>
+                          <p>Turn {tooltipData?.nearestDatum?.index}</p>
+                          {tooltipData?.nearestDatum?.datum && (
+                            <div className="flex flex-col gap-1">
+                              {Object.values(tooltipData.datumByKey)
+                                .reverse()
+                                .map((dist, index) => (
+                                  <div
+                                    key={index}
+                                    style={{
+                                      color: colorScale?.(dist.key),
+                                      textDecoration:
+                                        tooltipData.nearestDatum?.key === dist.key
+                                          ? "underline"
+                                          : undefined,
+                                    }}
+                                  >
+                                    {characterKeys[index]}:{" "}
+                                    {asPercentage(dist.datum.team_distribution.rate)}
+                                  </div>
+                                ))}
+                            </div>
+                          )}
+                        </>
+                      )}
+                    />
                   </TabsContent>
                 </Tabs>
               </>

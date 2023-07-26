@@ -2,6 +2,7 @@ import { ButtonHTMLAttributes, Fragment, HTMLAttributes, forwardRef } from "reac
 import { AvatarRankConfig } from "@/bindings/AvatarRankConfig";
 import { cn } from "@/utils/classname";
 import { sanitizeNewline } from "@/utils/helpers";
+import { Badge } from "../Primitives/Badge";
 import { Popover, PopoverContent, PopoverTrigger } from "../Primitives/Popover";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../Primitives/Tooltip";
 
@@ -28,7 +29,10 @@ const EidolonIcon = (props: Props) => {
       </PopoverTrigger>
       {!props.disablePopover && (
         <PopoverContent className="w-96">
-          <span className="text-lg font-semibold text-accent-foreground">{props.data.name}</span>
+          <div className="text-lg flex font-semibold text-accent-foreground gap-2 items-center">
+            <Badge className="h-fit p-1">E{props.data.rank}</Badge>
+            <span>{props.data.name}</span>
+          </div>
           <EidolonDescription data={props.data} />
         </PopoverContent>
       )}
