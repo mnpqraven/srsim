@@ -5,6 +5,7 @@ import { useTabRouteHelper } from "@/hooks/useTabRouteHelper";
 import { SimControlContext } from "@/providers/SimControl";
 import { LogTab } from "./LogTab";
 // import { MvpTab } from "./MvpTab";
+import { MvpTab } from "./MvpTab";
 import { ResultTab } from "./ResultTab";
 
 interface Props {
@@ -40,7 +41,9 @@ const LogViewer = ({ placeholder }: Props) => {
           </Button>
           <ResultTab data={simulationResult} />
         </TabsContent>
-        <TabsContent value="mvp">{/* <MvpTab name="test" /> */}</TabsContent>
+        <TabsContent value="mvp">
+          <MvpTab name="test" />
+        </TabsContent>
       </Tabs>
     </div>
   );

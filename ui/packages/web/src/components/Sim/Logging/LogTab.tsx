@@ -11,6 +11,7 @@ import {
 import { LucideIcon } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/Primitives/Button";
+import { ScrollArea } from "@/components/Primitives/ScrollArea";
 import {
   ColumnSelectFilter,
   ColumnToggle,
@@ -108,6 +109,8 @@ const LogTab = ({ data }: Props) => {
       <div className="flex flex-col gap-2">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
+            <DataTablePagination table={table} rowOptions={[50, 75, 100, 150, 200]} />
+
             <ColumnToggle
               table={table}
               variant="outline"
@@ -165,14 +168,9 @@ const LogTab = ({ data }: Props) => {
           </Button>
         </div>
 
-        <DataTable
-          stickyHeader
-          table={table}
-          className="h-[1000px] overflow-auto"
-          renderSubComponent={ExpandComponent}
-        />
-
-        <DataTablePagination table={table} rowOptions={[50, 75, 100, 150, 200]} />
+        <ScrollArea className="h-[650px] rounded-md border">
+          <DataTable stickyHeader table={table} renderSubComponent={ExpandComponent} />
+        </ScrollArea>
       </div>
     </>
   );

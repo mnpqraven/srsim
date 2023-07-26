@@ -29,7 +29,7 @@ function DataTableInner<TData>(
   ref: ForwardedRef<HTMLDivElement>
 ) {
   return (
-    <div ref={ref} className={cn("border-border rounded-md border", className)} {...props}>
+    <div ref={ref} className={className} {...props}>
       <Table className="border-separate border-spacing-0">
         <TableHeader
           className={cn(stickyHeader ? "[&_th]:bg-muted [&_th]:sticky [&_th]:top-0" : "")}

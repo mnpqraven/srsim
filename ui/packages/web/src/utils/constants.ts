@@ -3,13 +3,14 @@ import { AvatarPropertyConfig } from "@/bindings/AvatarPropertyConfig";
 import { AvatarRankConfig } from "@/bindings/AvatarRankConfig";
 import { AvatarSkillConfig } from "@/bindings/AvatarSkillConfig";
 import { EquipmentConfig } from "@/bindings/EquipmentConfig";
+import { MvpAnalysis } from "@/bindings/MvpAnalysis";
 import { RelicSetConfig } from "@/bindings/RelicSetConfig";
 import { RelicSetSkillConfig } from "@/bindings/RelicSetSkillConfig";
 import { SkillTreeConfig } from "@/bindings/SkillTreeConfig";
 
 // NOTE: othi: ping me on discord if remote api is out of date/500/404s
-export const OTHI_API = "https://api.othiremote.synology.me";
-// export const OTHI_API = "http://127.0.0.1:5005";
+// export const OTHI_API = "https://api.othiremote.synology.me";
+export const OTHI_API = "http://127.0.0.1:5005";
 
 const API = {
   // WARN: :id does not actually mean id number, just a tag for regexing to
@@ -24,6 +25,7 @@ const API = {
   relicSet: route<RelicSetConfig>("/honkai/relic_set/search/:id", "GET"),
   relicSetBonuses: route<List<number>, List<RelicSetSkillConfig>>("/honkai/relic_set/bonus"),
   relicSetBonus: route<RelicSetSkillConfig>("/honkai/relic_set/bonus/:id", "GET"),
+  mockMvp: route<MvpAnalysis>("/utils/mock_hsr_mvp", "GET"),
 };
 
 export interface List<T> {

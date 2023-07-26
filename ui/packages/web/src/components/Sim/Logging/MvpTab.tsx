@@ -12,10 +12,9 @@ interface Props {
 const MvpTab = ({ name }: Props) => {
   console.log(name);
   // TODO: mutation
-  const statMock = useMutation({
-    mutationKey: ["mockHsrStat"],
-    // NOTE: NOT AN ACTUAL FN
-    mutationFn: async () => await API.mockHsrStat.get(),
+  const mvpMutation = useMutation({
+    mutationKey: ["mockMvp"],
+    mutationFn: async () => await API.mockMvp.get(),
     onSuccess: data => console.log(data),
   });
 
@@ -53,14 +52,14 @@ const MvpTab = ({ name }: Props) => {
 
   return (
     <>
-      <Button onClick={() => statMock.mutate()}>Generate</Button>
+      <Button onClick={() => mvpMutation.mutate()}>Generate</Button>
       <div className="flex gap-2">
         <div id="left-container" className="flex max-w-[45vw] grow flex-col  gap-2">
           <div id="portrait" className="bg-background h-64 rounded-md p-4">
             portrait
           </div>
           <div id="summary-distribution" className="bg-background grow rounded-md p-4">
-            {statMock.data && (
+            {mvpMutation.data && (
               <>
                 <Tabs defaultValue="self">
                   <TabsList>
@@ -83,7 +82,7 @@ const MvpTab = ({ name }: Props) => {
                     <a href="https://simimpact.app/sh/b2673849-b8ef-47ae-a4c0-90ec9582dce1#">
                       damage timeline(click)
                     </a>
-                    <TeamXY data={statMock.data.team_distribution} />
+                    <TeamXY data={mvpMutation.data} />
                   </TabsContent>
                 </Tabs>
               </>

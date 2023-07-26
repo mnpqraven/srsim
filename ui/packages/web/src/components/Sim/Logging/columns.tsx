@@ -4,6 +4,7 @@ import { ChevronsDownUp, ChevronsUpDown, ExternalLink } from "lucide-react";
 import { ReactNode } from "react";
 import { Badge } from "@/components/Primitives/Badge";
 import { Checkbox } from "@/components/Primitives/Checkbox";
+import { ScrollArea } from "@/components/Primitives/ScrollArea";
 import {
   Sheet,
   SheetContent,
@@ -94,7 +95,9 @@ export const columns = [
           <SheetHeader>
             <SheetTitle>{getValue()}</SheetTitle>
           </SheetHeader>
-          <p>{JSON.stringify(row.original, null, 2)}</p>
+          <ScrollArea className="h-[calc(100vh-76px)]">
+            <p>{JSON.stringify(row.original, null, 2)}</p>
+          </ScrollArea>
         </SheetContent>
       </Sheet>
     ),
@@ -141,7 +144,9 @@ function summarizeBy(data: SimLog, tableIndex: number): ReactNode {
           <SheetHeader>
             <SheetTitle>{Object.keys(event)[index]}</SheetTitle>
           </SheetHeader>
-          <p>{JSON.stringify(event[Object.keys(event)[index] as keyof typeof event], null, 4)}</p>
+          <ScrollArea className="h-[calc(100vh-76px)]">
+            <p>{JSON.stringify(event[Object.keys(event)[index] as keyof typeof event], null, 4)}</p>
+          </ScrollArea>
         </SheetContent>
       </Sheet>
     );
@@ -198,7 +203,9 @@ function summarizeInitialize(event: Event.Initialize, tableIndex: number): React
           <SheetHeader>
             <SheetTitle>Config Schema</SheetTitle>
           </SheetHeader>
-          <p>{JSON.stringify(event.config, null, 4)}</p>
+          <ScrollArea className="h-[calc(100vh-76px)]">
+            <p>{JSON.stringify(event.config, null, 4)}</p>
+          </ScrollArea>
         </SheetContent>
       </Sheet>
     );
